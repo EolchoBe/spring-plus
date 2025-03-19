@@ -1,5 +1,6 @@
 package org.example.plus.domain.todo.controller;
 
+import org.example.plus.config.JwtUtil;
 import org.example.plus.domain.common.dto.AuthUser;
 import org.example.plus.domain.common.exception.InvalidRequestException;
 import org.example.plus.domain.todo.dto.response.TodoResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -30,12 +32,17 @@ class TodoControllerTest {
     @MockBean
     private TodoService todoService;
 
+    @MockBean
+    private JwtUtil jwtUtil;
+
     @Test
+    @WithMockUser(username = "email", roles = {"USER"})
     void todo_단건_조회에_성공한다() throws Exception {
+
         // given
         long todoId = 1L;
         String title = "title";
-        AuthUser authUser = new AuthUser(1L, "email", "nickname", UserRole.USER);
+        AuthUser authUser = new AuthUser(1L, "email", UserRole.ROLE_USER);
         User user = User.fromAuthUser(authUser);
         UserResponse userResponse = new UserResponse(user.getId(), user.getEmail());
         TodoResponse response = new TodoResponse(

@@ -2,7 +2,6 @@ package org.example.plus.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.plus.config.JwtUtil;
-import org.example.plus.config.PasswordEncoder;
 import org.example.plus.domain.auth.dto.request.SigninRequest;
 import org.example.plus.domain.auth.dto.request.SignupRequest;
 import org.example.plus.domain.auth.dto.response.SigninResponse;
@@ -12,6 +11,7 @@ import org.example.plus.domain.common.exception.InvalidRequestException;
 import org.example.plus.domain.user.entity.User;
 import org.example.plus.domain.user.enums.UserRole;
 import org.example.plus.domain.user.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
