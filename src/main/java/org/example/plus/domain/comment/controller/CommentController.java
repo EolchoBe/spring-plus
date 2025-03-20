@@ -9,6 +9,7 @@ import org.example.plus.domain.comment.service.CommentService;
 import org.example.plus.domain.common.annotation.Auth;
 import org.example.plus.domain.common.dto.AuthUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CommentController {
 
     @PostMapping("/todos/{todoId}/comments")
     public ResponseEntity<CommentSaveResponse> saveComment(
-            @Auth AuthUser authUser,
+            @AuthenticationPrincipal AuthUser authUser,
             @PathVariable long todoId,
             @Valid @RequestBody CommentSaveRequest commentSaveRequest
     ) {

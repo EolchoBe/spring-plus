@@ -1,12 +1,12 @@
 package org.example.plus.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.plus.config.PasswordEncoder;
 import org.example.plus.domain.common.exception.InvalidRequestException;
 import org.example.plus.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.plus.domain.user.dto.response.UserResponse;
 import org.example.plus.domain.user.entity.User;
 import org.example.plus.domain.user.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
