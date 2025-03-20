@@ -7,6 +7,7 @@ import org.example.plus.domain.common.exception.InvalidRequestException;
 import org.example.plus.domain.todo.dto.request.TodoSaveRequest;
 import org.example.plus.domain.todo.dto.response.TodoResponse;
 import org.example.plus.domain.todo.dto.response.TodoSaveResponse;
+import org.example.plus.domain.todo.dto.response.TodoSearchResponse;
 import org.example.plus.domain.todo.entity.Todo;
 import org.example.plus.domain.todo.repository.TodoRepository;
 import org.example.plus.domain.user.dto.response.UserResponse;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -88,5 +90,20 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TodoSearchResponse> searchTodos(String title, String managerName, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+
+        LocalDateTime startDateTime = (startDate != null) ? startDate.atStartOfDay() : null;
+
+        LocalDateTime endDateTime = (endDate != null) ? endDate.atTime(LocalTime.MAX) : null;
+
+        return todoRepository.searchTodos(
+                title,
+                managerName,
+                startDateTime,
+                endDateTime,
+                pageable);
     }
 }
