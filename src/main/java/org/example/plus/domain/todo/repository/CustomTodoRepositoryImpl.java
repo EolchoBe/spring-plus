@@ -66,9 +66,9 @@ public class CustomTodoRepositoryImpl implements CustomTodoRepository{
                 .leftJoin(todo.managers, manager)
                 .leftJoin(todo.comments, comment)
                 .where(
-                        containTitle(title),
-                        containManagerName(managerName),
-                        createdBetween(startDateTime, endDateTime)
+                      containTitle(title),
+                      containManagerName(managerName),
+                      createdBetween(startDateTime, endDateTime)
                 );
 
         return PageableExecutionUtils.getPage(result, pageable, countQuery::fetchOne);
@@ -88,10 +88,10 @@ public class CustomTodoRepositoryImpl implements CustomTodoRepository{
     }
 
     private BooleanExpression containManagerName(String managerName) {
-        return hasText(managerName) ? manager.user.nickname.like("%"+managerName+"%") : null;
+        return hasText(managerName) ? manager.user.nickname.contains(managerName) : null;
     }
 
     private BooleanExpression containTitle(String title) {
-        return hasText(title) ? todo.title.like("%"+title+"%") : null;
+        return hasText(title) ? todo.title.contains(title) : null;
     }
 }
