@@ -27,12 +27,9 @@ public class SaveManagerLoggingAspect {
     private final LogService logService;
 
      @Pointcut("execution(* org.example.plus.domain.manager.service.ManagerService.saveManager(..)) && args(authUser, todoId, managerSaveRequest)")
-    //@Pointcut("execution(* org.example.plus.domain.manager.service.ManagerService.saveManager(..))")
     public void managerServiceMethods(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {}
-    //public void managerServiceMethods() {}
     @Around("managerServiceMethods(authUser, todoId, managerSaveRequest)")
     public Object logManagerService(ProceedingJoinPoint joinPoint, AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) throws Throwable{
-        //AuthUser authUser = (AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         HttpServletRequest request = getRequest();
         String requestURI = request.getRequestURI();
         String requestMethod = request.getMethod();
@@ -50,6 +47,7 @@ public class SaveManagerLoggingAspect {
              logService.successLog(requestURI,requestMethod, managerId, HttpStatus.OK.name());
         } catch (Exception e) {
             logService.failedLog(requestURI,requestMethod, managerId, e.getMessage(), HttpStatus.BAD_REQUEST.name());
+            throw e;
         }
 
         return proceed;
