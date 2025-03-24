@@ -20,6 +20,5 @@ public class AuthUser {
         this.id = id;
         this.email = email;
         this.authorities = List.of(new SimpleGrantedAuthority(userRole.name()));
-        log.error("user의 id={}, email={}, role={}",id,email,authorities);
     }
 }

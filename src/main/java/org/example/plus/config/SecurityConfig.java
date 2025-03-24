@@ -1,5 +1,6 @@
 package org.example.plus.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.plus.domain.user.enums.UserRole;
 import org.springframework.context.annotation.Bean;
@@ -40,9 +41,19 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(request -> request.getRequestURI().startsWith("/auth")).permitAll()
-                        .requestMatchers(request -> request.getRequestURI().startsWith("/admin")).hasAuthority(UserRole.ROLE_ADMIN.getUserRole())
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.getUserRole())
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
-                ).build();
+                )
+//                .exceptionHandling(exceptionHandling -> exceptionHandling
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            System.out.println("AuthenticationEntryPoint 실행됨: " + authException.getMessage());
+//                            response.setContentType("application/json;charset=UTF-8");
+//                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                            response.getWriter().write("{\"error\": \"잘못된 요청 값입니다.\"}");
+//                        })
+//                )
+                .build();
     }
 }
